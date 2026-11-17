@@ -1,0 +1,24 @@
+# Dependências
+node_modules
+
+# Build
+dist
+dist-ssr
+*.local
+
+# Ambiente (nunca commitar .env com dados reais)
+.env
+.env.local
+.env.*.local
+
+# Logs e sistema
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
