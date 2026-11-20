@@ -40,7 +40,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!found || password !== DEMO_PASSWORD) {
           return "E-mail ou senha inválidos. Use as contas de demonstração.";
         }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(found));
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(found));
+        } catch {
+          return "Não foi possível iniciar a sessão neste navegador. Verifique o armazenamento local e tente novamente.";
+        }
         setUser(found);
         return null;
       },

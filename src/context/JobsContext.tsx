@@ -20,22 +20,49 @@ type JobsContextValue = {
 const JobsContext = createContext<JobsContextValue | null>(null);
 const STORAGE_KEY = "rota.jobs.v1";
 
+const VALID_STATUSES: JobStatus[] = [
+  "pendente",
+  "a_caminho",
+  "em_andamento",
+  "concluido",
+];
+
+function isJob(value: unknown): value is Job {
+  if (!value || typeof value !== "object") return false;
+  const job = value as Record<string, unknown>;
+  const hasText = (field: string) => typeof job[field] === "string";
+  return (
+    hasText("id") &&
+    hasText("title") &&
+    hasText("clientName") &&
+    hasText("clientPhone") &&
+    hasText("address") &&
+    hasText("neighborhood") &&
+    hasText("city") &&
+    hasText("scheduledAt") &&
+    hasText("notes") &&
+    typeof job.status === "string" &&
+    VALID_STATUSES.includes(job.status as JobStatus) &&
+    (job.technicianId === null || typeof job.technicianId === "string") &&
+    typeof job.lat === "number" &&
+    typeof job.lng === "number" &&
+    Array.isArray(job.history) &&
+    job.history.every(
+      (entry) =>
+        entry &&
+        typeof entry.at === "string" &&
+        typeof entry.text === "string"
+    )
+  );
+}
+
 function loadJobs(): Job[] {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL_JOBS;
     const parsed: unknown = JSON.parse(raw);
-    if (
-      Array.isArray(parsed) &&
-      parsed.every(
-        (job) =>
-          job &&
-          typeof job.id === "string" &&
-          typeof job.status === "string" &&
-          Array.isArray(job.history)
-      )
-    ) {
-      return parsed as Job[];
+    if (Array.isArray(parsed) && parsed.every(isJob)) {
+      return parsed;
     }
   } catch {
     // Storage may be unavailable or contain invalid JSON; retain demo data.

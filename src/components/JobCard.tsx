@@ -72,9 +72,9 @@ export function JobCard({ job, technician, compact, onStatusChange }: Props) {
         )}
       </div>
 
-      {!compact && job.history.length > 0 && (
+      {job.history.length > 0 && (
         <ol className="mt-3 space-y-1 border-t border-slate-100 pt-3 text-xs text-slate-500">
-          {job.history.slice(-3).map((item) => (
+          {job.history.map((item) => (
             <li key={item.at + item.text}>
               <span className="font-medium text-slate-600">{formatDateTime(item.at)}</span>
               {" — "}
