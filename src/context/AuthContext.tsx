@@ -18,10 +18,24 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+function isStoredUser(value: unknown): value is User {
+  if (!value || typeof value !== "object") return false;
+  const user = value as Record<string, unknown>;
+  return (
+    typeof user.id === "string" &&
+    typeof user.name === "string" &&
+    typeof user.email === "string" &&
+    (user.role === "gestor" || user.role === "tecnico") &&
+    (user.technicianId === undefined || typeof user.technicianId === "string")
+  );
+}
+
 function readStoredUser(): User | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as User) : null;
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    return isStoredUser(parsed) ? parsed : null;
   } catch {
     return null;
   }
@@ -49,7 +63,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return null;
       },
       logout: () => {
-        localStorage.removeItem(STORAGE_KEY);
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch {
+          // Even if storage is blocked, clear the in-memory session.
+        }
         setUser(null);
       },
     }),
