@@ -1,152 +1,75 @@
-# Rota
+# ROTA
 
-SaaS simples de gestão operacional para empresas brasileiras de serviços de campo — ar-condicionado, elétrica, hidráulica, manutenção e instalação.
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 
-O dono da empresa vê a equipe, distribui os serviços do dia, acompanha o status e avisa o cliente no WhatsApp, sem planilha.
+**ROTA organiza a operação de equipes de serviço de campo.** Feito para empresas de climatização, hidráulica, elétrica, manutenção e instalação que precisam coordenar técnicos e clientes sem depender de planilhas e conversas dispersas.
 
----
+> Projeto inscrito no Hack Brasil 2026 — trilha **Logística & Automação**.
 
-## Problema que resolve
+## O problema
 
-Empresas pequenas de campo ainda operam no grupo de WhatsApp e na memória do dono:
+Em muitas empresas de serviço de campo, a agenda fica espalhada entre planilhas, mensagens e a memória do gestor. Ordens se perdem, é difícil saber quem está atendendo cada chamado, o cliente não recebe atualizações e o histórico do serviço fica incompleto. Isso gera atrasos, retrabalho e mais tempo de gestão ao telefone.
 
-- ninguém sabe com precisão onde cada técnico está
-- os serviços do dia se perdem em mensagens
-- o cliente cobra atualização e ninguém responde
-- não existe um histórico claro do que foi feito
+## A solução
 
-O resultado é atraso, retrabalho e dono preso no celular o dia inteiro.
+ROTA é um SaaS de gestão operacional que reúne agendamento e ordens de serviço, distribuição de tarefas, acompanhamento de técnicos e comunicação com o cliente pelo WhatsApp. O gestor acompanha a operação em um painel; o técnico consulta sua agenda e atualiza o andamento; a mensagem ao cliente pode ser preparada no WhatsApp.
 
-## Solução
+Este repositório contém um **MVP frontend** com dados de demonstração. O botão de WhatsApp abre uma conversa com texto preenchido; o envio automatizado por uma API e o rastreamento GPS real ainda não estão implementados.
 
-O **Rota** concentra o dia operacional em uma tela só:
+## Funcionalidades do MVP
 
-1. o gestor entra, vê os serviços e a equipe
-2. redistribui OS com um clique
-3. o técnico atualiza o status no celular
-4. o cliente recebe o recado pronto no WhatsApp
-5. o histórico da OS fica registrado
+- Acesso de demonstração para gestor e técnico.
+- Painel com ordens do dia e distribuição entre técnicos.
+- Agenda do técnico e atualização de status da ordem.
+- Mapa ilustrativo da equipe (sem GPS ou chave de mapas).
+- Atalho `wa.me` com mensagem pronta para o cliente.
+- Histórico básico por ordem de serviço.
 
-Este repositório é um **MVP frontend** com dados de demonstração. Não exige backend para rodar.
+## Tecnologias
 
-## Principais funcionalidades
+- **React 18** para a interface.
+- **TypeScript** para tipagem estática.
+- **Vite** para desenvolvimento e build.
+- **Tailwind CSS** para estilos.
+- **React Router** para navegação.
 
-- Login simples (gestor e técnico)
-- Dashboard do gestor com lista de serviços do dia
-- Mapa ilustrativo com a posição da equipe (placeholder, sem chave de API)
-- Redistribuição de serviços entre técnicos
-- Tela do técnico com a agenda do dia
-- Avanço de status: pendente → a caminho → em andamento → concluído
-- Botão **Avisar no WhatsApp** (abre o `wa.me` com mensagem pronta)
-- Histórico básico em cada ordem de serviço
+## Como executar
 
-## Como rodar o projeto localmente
-
-Requisitos: [Node.js 18+](https://nodejs.org/) e npm.
+Requisitos: Node.js 18 ou superior e npm.
 
 ```bash
-git clone https://github.com/SEU_USUARIO/rota.git
+git clone https://github.com/gsvleonardi-alt/rota.git
 cd rota
-cp .env.example .env
 npm install
-npm start
+npm run dev
 ```
 
-No Windows (PowerShell):
-
-```powershell
-git clone https://github.com/SEU_USUARIO/rota.git
-cd rota
-Copy-Item .env.example .env
-npm install
-npm start
-```
-
-Ou use o script pronto:
-
-```bash
-# macOS / Linux
-chmod +x start.sh && ./start.sh
-
-# Windows
-.\start.ps1
-```
-
-O app abre em [http://localhost:5173](http://localhost:5173).
+Abra o endereço exibido pelo Vite (normalmente `http://localhost:5173`). Para gerar a versão de produção, execute `npm run build`.
 
 ### Contas de demonstração
 
-| Perfil  | E-mail             | Senha  |
-| ------- | ------------------ | ------ |
-| Gestor  | `gestor@rota.app`  | `123456` |
+| Perfil | E-mail | Senha |
+| --- | --- | --- |
+| Gestor | `gestor@rota.app` | `123456` |
 | Técnico | `tecnico@rota.app` | `123456` |
 
-Não há cadastro neste MVP. Os dados resetam ao recarregar a página (exceto a sessão, que fica no `localStorage`).
+Não use essas credenciais como autenticação de produção. O MVP usa dados mockados no frontend; ordens e clientes não têm persistência em backend.
 
-## Stack utilizada
+## Capturas de tela
 
-- React 18 + TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Dados mockados no frontend (sem banco)
+Ainda não há screenshots ou mockups do produto em `public/` ou `dist/`. A pasta `public/` contém apenas o favicon.
 
-O `.env` só define porta, nome do app e um placeholder de API para o próximo passo.
+## Contribuição
 
-## Estrutura de pastas
+Contribuições são bem-vindas!
 
-```text
-rota/
-├── public/                 # favicon
-├── src/
-│   ├── components/         # JobCard, mapa, layout, badge
-│   ├── context/            # autenticação e lista de serviços
-│   ├── data/               # usuários, técnicos e OS de demo
-│   ├── lib/                # formatação e mensagem de WhatsApp
-│   ├── pages/              # Login, Dashboard, Técnico
-│   ├── App.tsx             # rotas
-│   └── main.tsx
-├── .env.example
-├── start.sh / start.ps1    # sobe o projeto com um comando
-├── package.json
-└── README.md
-```
-
-## Exemplos de uso
-
-**Gestor, 7h30.** Marina entra com `gestor@rota.app`, vê 4 OS abertas, Carlos online e João offline. Move o vazamento de Pinheiros para a Ana e clica em *Avisar no WhatsApp*.
-
-**Técnico, 8h45.** Carlos entra com `tecnico@rota.app`, toca em *Sair para o local* e depois em *Iniciar atendimento*. O status muda na hora no painel do gestor.
-
-**Cliente.** Recebe algo como: *“Padaria São Jorge, o técnico já está a caminho.”*
-
-Fluxo mental do MVP:
-
-```text
-Login → Dashboard (gestor) ou Meu dia (técnico)
-      → atualiza status
-      → abre WhatsApp com texto pronto
-```
-
-## Roadmap futuro
-
-- [ ] Backend com autenticação real
-- [ ] GPS ao vivo do técnico
-- [ ] Mapa com Mapbox ou Google Maps
-- [ ] Envio automático de WhatsApp (API oficial)
-- [ ] App mobile para o técnico
-- [ ] Relatórios semanais e histórico pesquisável
-- [ ] Multi-empresa (white-label para prestadores)
-
-## Como contribuir
-
-1. Faça um fork e crie uma branch (`feat/mapa-real`, `fix/login`, etc.)
-2. Mantenha o MVP simples: uma tela, um fluxo, um commit claro
-3. Não commite `.env` nem credenciais
-4. Abra um Pull Request descrevendo o que mudou e como testar
-
-Sugestões boas para primeira contribuição: melhorar o mapa placeholder, persistir OS no `localStorage`, ou adicionar filtro por status.
+1. Faça um fork e crie uma branch descritiva, por exemplo `feat/persistencia` ou `fix/status-os`.
+2. Instale as dependências com `npm install` e rode o projeto com `npm run dev`.
+3. Mantenha as alterações focadas e não inclua arquivos `.env`, credenciais ou dados de clientes.
+4. Abra um Pull Request explicando a mudança e como validá-la.
 
 ## Licença
 
-MIT. Veja o arquivo `LICENSE`.
+Distribuído sob a licença MIT. Consulte [LICENSE](LICENSE).

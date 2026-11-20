@@ -4,7 +4,7 @@ import { MapPlaceholder } from "../components/MapPlaceholder";
 import { useJobs } from "../context/JobsContext";
 
 export function DashboardPage() {
-  const { jobs, assignTechnician } = useJobs();
+  const { jobs, assignTechnician, dispatchByRegionAndTime } = useJobs();
   const openJobs = jobs.filter((job) => job.status !== "concluido");
   const doneToday = jobs.filter((job) => job.status === "concluido").length;
   const online = TECHNICIANS.filter((tech) => tech.online).length;
@@ -50,7 +50,21 @@ export function DashboardPage() {
       </div>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-ink-900">Serviços do dia</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold text-ink-900">Serviços do dia</h2>
+            <p className="text-xs text-slate-500">
+              Sugestão heurística: janela agendada, região e carga atual; não calcula trânsito ou rota GPS.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-ink-800 hover:bg-sand"
+            onClick={dispatchByRegionAndTime}
+          >
+            Sugerir despacho
+          </button>
+        </div>
         <div className="grid gap-4 lg:grid-cols-2">
           {jobs.map((job) => {
             const technician = TECHNICIANS.find((tech) => tech.id === job.technicianId);
